@@ -36,6 +36,9 @@ window.addEventListener("mousemove", (e) => {
   let b = $('.rightButtons')[0].getBoundingClientRect();
 
   if (e.clientX < b.x + b.width && e.clientY > b.y) return;
+  b = $('#rightStat')[0].getBoundingClientRect();
+
+  if (e.clientX > b.x && e.clientY < b.y + b.height) return;
 
   if (e.clientX < 50) leftVel = -(50 - e.clientX);
   if (e.clientX > window.innerWidth - 50) leftVel = 50 - (window.innerWidth - e.clientX);

@@ -56,6 +56,7 @@ function sim_tick() {
     //   car_remove(car);
     // }
   }
+  running_stat.tickTime = new Date() - start;
   // console.log(`sim_tick() in ${new Date() - start}ms`);
 }
 
@@ -70,13 +71,14 @@ function sim_start() {
     window._cycle = () => {
       let start = new Date();
       if (Math.random() > 0.9) {
-        sim_spawn_cars(40);
+        sim_spawn_cars(Math.random() > 0.7 ? 100 : 50);
         sim_precalc();
       }
       sim_tick();
       cvs_draw_all_cars();
       cvs_update_all_cars();
       console.log(`cycle in ${new Date() - start}ms`);
+      ui_stat_update();
       setTimeout(window._cycle, 300);
     };
     window._cycle();
@@ -87,7 +89,7 @@ function sim_stop() {
 }
 
 function sim_max_cars() {
-  return _buildings * 3 * 1.2 / 10;
+  return (_buildings * 3 * 1.2 / 10) | 0;
 }
 
 function sim_spawn_cars(max_time) {
