@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <script src="core/ngraph.graph.js"></script>
+    <script src="core/ngraph.path.js"></script>
+    <script src="core/geometric.js"></script>
+
+    <script src="core/types.js"></script>
+    <script src="core/node.js"></script>
+    <script src="core/road.js"></script>
+    <script src="core/car.js"></script>
+    <script src="core/data.js"></script>
+
+    <script src="core/pathfinding.js"></script>
+
+    <script src="core/simulation.js"></script>
+
+    <script src="ui/jquery.js"></script>
+    <script src="ui/jquery-ui-1.12.1.custom/jquery-ui.min.js"></script>
+
+    <link rel="stylesheet" href="ui/normalize.css">
+    <link rel="stylesheet" href="ui/canvas.css">
+    <link rel="stylesheet" href="ui/interface.css">
+    <link rel="stylesheet" href="ui/jquery-ui-1.12.1.custom/jquery-ui.structure.min.css">
+    <link rel="stylesheet" href="ui/jquery-ui-1.12.1.custom/jquery-ui.min.css">
+    <link rel="stylesheet" href="ui/jquery-ui-1.12.1.custom/jquery-ui.theme.min.css">
+    <title></title>
+  </head>
+  <body>
+    <div id="canvas">
+      <div id="canvasContainer">
+        <div id="canvasBound"></div>
+      </div>
+    </div>
+    <div class="rightButtons">
+      <button type="button" id="playpause" data-key=" " class="active" onclick="ui_start_sim(this)">&gt;</button>
+      <button type="button" data-key="a" onclick="ui_add_road(this)">+</button>
+      <button type="button" data-key="d" onclick="ui_delete_road(this)">-</button>
+      <button type="button" onclick="ui_zoom(1)">Z+</button>
+      <button type="button" onclick="ui_zoom(-1)">Z-</button>
+      <button type="button" onclick="save_game()">S</button>
+      <button type="button" onclick="load_game();">L</button>
+      <button type="button" class="active" onclick="ui_toggle_node(this);">N</button>
+    </div>
+    <div id="tooltip"></div>
+    <div id="errorDialog" title="Error"></div>
+    <div id="roadsDialog" title="Select road"></div>
+    <script src="ui/canvas.js"></script>
+    <script src="ui/interface.js"></script>
+    <script src="ui/controls.js"></script>
+    <script src="ui/roads.js"></script>
+  </body>
+</html>

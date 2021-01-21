@@ -1,0 +1,115 @@
+#canvasContainer {
+  display: block;
+  position: relative;
+  padding-top: 1px;
+  margin-top: -1px;
+}
+
+#canvas {
+  display: block;
+  position: relative;
+  width: 100vw;
+  min-width: 100vw;
+  height: 100vh;
+  min-height: 100vh;
+  overflow: scroll;
+
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+#canvas::-webkit-scrollbar {
+  width: 1px;
+  /* background: transparent; */
+}
+
+#canvas .child {
+  position: absolute;
+}
+
+#canvasBound {
+  margin: 20px;
+  background-size: 20px 20px;
+  background-image:
+    linear-gradient(to right, rgba(0, 0, 0, 0.05) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(0, 0, 0, 0.05) 1px, transparent 1px);
+  z-index: 1;
+  border-top: 2px solid red;
+  border-left: 2px solid red;
+  border-bottom: 2px dashed red;
+  border-right: 2px dashed red;
+}
+
+road {
+  display: block;
+  position: absolute;
+  width: 20px;
+  z-index: 20;
+  z-index: 20;
+  transform-origin: center left;
+}
+car.l1 {
+  z-index: 21;
+}
+road.l1 {
+  z-index: 20;
+  border-width: 0;
+  background: rgba(0, 0, 0, 0.4);
+}
+car.l2 {
+  z-index: 22;
+}
+road.l2 {
+  z-index: 21;
+  border-color: grey;
+  border-style: solid;
+  background: rgba(0, 0, 0, 0.7);
+}
+car.l3 {
+  z-index: 23;
+}
+road.l3 {
+  z-index: 22;
+  border-color: grey;
+  border-style: solid;
+  background: white;
+}
+car.l4 {
+  z-index: 24;
+}
+road.l4 {
+  z-index: 23;
+  border-color: black;
+  border-style: solid;
+  background: rgb(251 175 29);
+}
+node:not(.building) {
+  z-index: 40;
+}
+node {
+  display: block;
+  position: absolute;
+  border-radius: 100%;
+  font-size: 4px;
+  color: rgba(0, 0, 0, 1);
+}
+car {
+  display: block;
+  position: absolute;
+  border-radius: 100%;
+  width: 0.5px;
+  height: 0.5px;
+  background: white;
+  border: 1px solid black;
+  transition: all 300ms linear;
+  /* z-index: 100 !important; */
+}
+car.l2 {
+  filter: invert(1);
+}
+node:active, node.active {
+  filter: invert(1);
+}
+node.hover {
+  z-index: 500;
+}
