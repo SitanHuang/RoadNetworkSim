@@ -1,5 +1,8 @@
 $canvas.scroll(() => {
   cvs_repaint();
+  world.ui = !world.ui ? {} : world.ui;
+  world.ui.scrollTop = $canvas.scrollTop();
+  world.ui.scrollLeft = $canvas.scrollLeft();
 });
 
 $(window).on('keypress', function (e) {

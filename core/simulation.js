@@ -70,7 +70,7 @@ function sim_start() {
     window._cycle = () => {
       let start = new Date();
       if (Math.random() > 0.9) {
-        sim_spawn_cars(40 * Math.random() + 10);
+        sim_spawn_cars(40);
         sim_precalc();
       }
       sim_tick();
@@ -99,6 +99,7 @@ function sim_spawn_cars(max_time) {
 
   let buildingsList = Math.random() > 0.5 ? _residentialBuildings : _commercialBuildings;
   let regions = Object.keys(buildingsList);
+  if (Math.random() > 0.25)
   do {
     let x = buildingsList[regions[Math.floor(regions.length * Math.random())]];
     if (!x || !x.length) return;
@@ -118,6 +119,7 @@ function sim_spawn_cars(max_time) {
     cars++;
     lengths += path.length;
   } while ((new Date() - start) < max_time * 0.1 && (cars + existingCars) < sim_max_cars());
+  if (Math.random() > 0.25)
   do {
     let x = buildingsList[regions[Math.floor(regions.length * Math.random())]];
     if (!x || !x.length) return;
@@ -140,7 +142,7 @@ function sim_spawn_cars(max_time) {
   while (region = regions[Math.floor(regions.length * Math.random())]) {
     if ((new Date() - start) > max_time || (cars + existingCars) > sim_max_cars()) break;
     _residentialBuildings[region].forEach(x => {
-      if ((new Date() - start) > max_time * 0.3 || (cars + existingCars) > sim_max_cars()) return;
+      if ((new Date() - start) > max_time * 0.4 || (cars + existingCars) > sim_max_cars()) return;
       let src = building_id(x.r, x.b[2]);
       let coor = parse_id(src);
 
@@ -156,7 +158,7 @@ function sim_spawn_cars(max_time) {
       lengths += path.length;
     });
     _commercialBuildings[region].forEach(x => {
-      if ((new Date() - start) > max_time * 0.3 || (cars + existingCars) > sim_max_cars()) return;
+      if ((new Date() - start) > max_time * 0.4 || (cars + existingCars) > sim_max_cars()) return;
       let src = building_id(x.r, x.b[2]);
       let coor = parse_id(src);
 

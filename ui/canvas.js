@@ -135,9 +135,9 @@ function cvs_draw_road(road) {
 }
 
 var camera = {real: {x: 0, y: 0, bx: 0, by: 0}, coor: {x: 0, y: 0, bx: 0, by: 0}, bound_coor: {x: 0, y: 0, bx: 0, by: 0}};
-function cvs_update_camera() {
-  camera.real.x = $canvas.scrollLeft() / _ui_current_zoom;
-  camera.real.y = $canvas.scrollTop() / _ui_current_zoom;
+function cvs_update_camera(sl, st) {
+  camera.real.x = (sl || $canvas.scrollLeft()) / _ui_current_zoom;
+  camera.real.y = (st || $canvas.scrollTop()) / _ui_current_zoom;
   camera.real.bx = camera.real.x + $canvas.outerWidth() / _ui_current_zoom;
   camera.real.by = camera.real.y + $canvas.outerHeight() / _ui_current_zoom;
   camera.coor.x = camera.real.x / BLOCK_SIZE;

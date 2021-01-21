@@ -1,7 +1,8 @@
 let _ui_current_zoom = 1;
-function ui_zoom(factor) {
+function ui_zoom(factor, override) {
   // let oldzoom = _ui_current_zoom;
-  _ui_current_zoom = Math.max(0.5, _ui_current_zoom + factor / 5 * _ui_current_zoom);
+  world.ui = !world.ui ? {} : world.ui;
+  world.ui._ui_current_zoom = _ui_current_zoom = Math.max(0.5, override ? factor : (_ui_current_zoom + factor / 5 * _ui_current_zoom));
   // let diff = _ui_current_zoom - oldzoom;
   $canvas_container.css('zoom', _ui_current_zoom);
   cvs_repaint();

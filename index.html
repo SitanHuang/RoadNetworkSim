@@ -41,10 +41,14 @@
       <button type="button" onclick="ui_zoom(-1)">Z-</button>
       <button type="button" onclick="save_game()">S</button>
       <button type="button" onclick="load_game();">L</button>
+      <button type="button" onclick="export_game();">E</button>
+      <button type="button" onclick="import_game();">I</button>
       <button type="button" class="active" onclick="ui_toggle_node(this);">N</button>
     </div>
+    <input id='file-upload-button' type="file" style="display: none"/>
     <div id="tooltip"></div>
     <div id="errorDialog" title="Error"></div>
+    <div id="infoDialog" title="Info"></div>
     <div id="roadsDialog" title="Select road"></div>
     <script src="ui/canvas.js"></script>
     <script src="ui/interface.js"></script>
