@@ -300,7 +300,8 @@ function cvs_repaint() {
   cvs_draw_all_nodes();
   cvs_draw_all_cars();
   running_stat.uiTime = new Date() - start;
-  console.log(`cvs_repaint() in ${running_stat.uiTime}ms`)
+  ui_stat_update();
+  // console.log(`cvs_repaint() in ${running_stat.uiTime}ms`)
   window.repaintInProcess = false;
 }
 

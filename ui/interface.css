@@ -26,7 +26,7 @@ body {
 .rightButtons button:hover,
 .rightButtons button:active,
 .rightButtons button.active {
-  border-radius: 1px solid black;
+  border: 1px solid black;
 }
 
 .rightButtons button:active,
