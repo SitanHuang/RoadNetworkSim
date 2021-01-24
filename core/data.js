@@ -2,7 +2,14 @@ var world = {roads: {}, nodes: {}, cars: {}, bound: [80, 50], tick: 0};
 
 function save_game() {
   ui_stop_sim(document.getElementById('playpause'));
-  localStorage.save1 = JSON.stringify(world);
+  let data = JSON.stringify(world);
+  if (data.length > 5000000) {
+    $("#errorDialog")
+      .text("Data is too large for browser localStorage. Please export to file.")
+      .dialog({ modal: true, buttons: { Ok: function() { $(this).dialog( "close" ); } } });
+    return false;
+  }
+  localStorage.save1 = data;
 }
 
 function reinit_game() {
