@@ -26,7 +26,7 @@ function sim_precalc() {
     });
   }
 
-  console.log(`sim_precalc() in ${new Date() - start}ms`);
+  //console.log(`sim_precalc() in ${new Date() - start}ms`);
   // get cars in every node
   // car speed depend on capacity of next node
   // each car has 1/(# intersections) chance to move intersection
@@ -77,7 +77,7 @@ function sim_start() {
       sim_tick();
       cvs_draw_all_cars();
       cvs_update_all_cars();
-      console.log(`cycle in ${new Date() - start}ms`);
+      //console.log(`cycle in ${new Date() - start}ms`);
       ui_stat_update();
       setTimeout(window._cycle, 300);
     };
@@ -137,7 +137,6 @@ function sim_spawn_cars(max_time) {
     create_car(src, dst, path);
     cars++;
     lengths += path.length;
-    console.log('tourist')
   } while ((new Date() - start) < max_time * 0.3 && (cars + existingCars) < sim_max_cars());
 
   let region;
@@ -176,5 +175,5 @@ function sim_spawn_cars(max_time) {
       lengths += path.length;
     });
   }
-  console.log(`sim_spawn_cars() ${cars} cars and ${Math.round(lengths / cars * METERS_PER_UNIT / 1000 * 10) / 10}km avg trip in ${new Date() - start}ms`);
+  //console.log(`sim_spawn_cars() ${cars} cars and ${Math.round(lengths / cars * METERS_PER_UNIT / 1000 * 10) / 10}km avg trip in ${new Date() - start}ms`);
 }
