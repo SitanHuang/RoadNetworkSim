@@ -16,15 +16,17 @@ function sim_precalc() {
   for (let id in world.roads) {
     let r = world.roads[id];
     r.buildings.forEach((b, i) => {
-      let region = building_coor(r, i).map(x => Math.round(x * METERS_PER_UNIT / 7000)).toString();
+      let region = building_coor(r, i).map(x => Math.round(x * METERS_PER_UNIT / (Math.random() * 8000 + 1000))).toString();
       _residentialBuildings[region] = _residentialBuildings[region] || [];
       _commercialBuildings[region] = _commercialBuildings[region] || [];
       _buildings++;
-      if (b[0] == 'R') _residentialBuildings[region].push({ r: r, b: b});
-      else if (b[0] == 'C') _commercialBuildings[region].push({ r: r, b: b});
-      else if (b[0] == 'T') _touristBuildings.push({ r: r, b: b});
+      if (b[0] == 'R') _residentialBuildings[region].push({ r: r, b: b });
+      else if (b[0] == 'C') _commercialBuildings[region].push({ r: r, b: b });
+      else if (b[0] == 'T') _touristBuildings.push({ r: r, b: b });
     });
   }
+
+  _touristBuildings = durstenfeldShuffle(_touristBuildings);
 
   //console.log(`sim_precalc() in ${new Date() - start}ms`);
   // get cars in every node
@@ -100,47 +102,49 @@ function sim_spawn_cars(max_time) {
   let lengths = 0;
 
   let buildingsList = Math.random() > 0.5 ? _residentialBuildings : _commercialBuildings;
-  let regions = Object.keys(buildingsList);
-  if (Math.random() > 0.25)
-  do {
-    let x = buildingsList[regions[Math.floor(regions.length * Math.random())]];
-    if (!x || !x.length) return;
-    x = x[Math.floor(x.length * Math.random())]
-    let src = building_id(x.r, x.b[2]);
-    let coor = parse_id(src);
+  let regions = durstenfeldShuffle(Object.keys(buildingsList));
+  if (Math.random() < 0.6)
+    do {
+      let x = buildingsList[regions[Math.floor(regions.length * Math.random())]];
+      if (!x || !x.length) return;
+      x = x[Math.floor(x.length * Math.random())];
+      let src = building_id(x.r, x.b[2]);
+      let coor = parse_id(src);
 
-    buildingsList = Math.random() > 0.5 ? _residentialBuildings : _commercialBuildings;
-    let dst = buildingsList[regions[Math.floor(regions.length * Math.random())]];
-    if (!dst) break;
-    dst = dst[Math.floor(dst.length * Math.random())];
-    if (!dst) break;
-    dst = building_id(dst.r, dst.b[2]);
-    let path = pathfind_find(src, dst);
-    if (!path.length) break;
-    create_car(src, dst, path);
-    cars++;
-    lengths += path.length;
-  } while ((new Date() - start) < max_time * 0.1 && (cars + existingCars) < sim_max_cars());
-  if (Math.random() > 0.25)
-  do {
-    let x = buildingsList[regions[Math.floor(regions.length * Math.random())]];
-    if (!x || !x.length) return;
-    x = x[Math.floor(x.length * Math.random())]
-    let src = building_id(x.r, x.b[2]);
-    let coor = parse_id(src);
+      let buildingsList2 = Math.random() > 0.5 ? _residentialBuildings : _commercialBuildings;
+      let regions2 = durstenfeldShuffle(Object.keys(buildingsList2));
+      let dst = buildingsList2[regions2[Math.floor(regions2.length * Math.random())]];
+      if (!dst) break;
+      dst = dst[dst.length * Math.random() | 0];
+      if (!dst) break;
+      dst = building_id(dst.r, dst.b[2]);
+      let path = pathfind_find(src, dst);
+      if (!path.length) break;
+      create_car(src, dst, path);
+      cars++;
+      lengths += path.length;
+    } while ((new Date() - start) < max_time * 0.35 && (cars + existingCars) < sim_max_cars());
 
-    let dst = _touristBuildings[Math.floor(_touristBuildings.length * Math.random())];
-    if (!dst) break;
-    dst = building_id(dst.r, dst.b[2]);
-    let path = pathfind_find(src, dst);
-    if (!path.length) break;
-    create_car(src, dst, path);
-    cars++;
-    lengths += path.length;
-  } while ((new Date() - start) < max_time * 0.3 && (cars + existingCars) < sim_max_cars());
+  if (Math.random() < 0.6)
+    do {
+      let x = buildingsList[regions[Math.floor(regions.length * Math.random())]];
+      if (!x || !x.length) return;
+      x = x[Math.floor(x.length * Math.random())];
+      let src = building_id(x.r, x.b[2]);
+      let coor = parse_id(src);
 
-  let region;
-  while (region = regions[Math.floor(regions.length * Math.random())]) {
+      let dst = _touristBuildings[Math.floor(_touristBuildings.length * Math.random())];
+      if (!dst) break;
+      dst = building_id(dst.r, dst.b[2]);
+      let path = pathfind_find(src, dst);
+      if (!path.length) break;
+      create_car(src, dst, path);
+      cars++;
+      lengths += path.length;
+    } while ((new Date() - start) < max_time * 0.45 && (cars + existingCars) < sim_max_cars());
+
+  let i = 0;
+  for (let region = regions[i];i < regions.length;i++) {
     if ((new Date() - start) > max_time || (cars + existingCars) > sim_max_cars()) break;
     _residentialBuildings[region].forEach(x => {
       if ((new Date() - start) > max_time * 0.4 || (cars + existingCars) > sim_max_cars()) return;
@@ -149,7 +153,7 @@ function sim_spawn_cars(max_time) {
 
       let dst = (Math.random() < 0.9 ? _commercialBuildings[region] : _residentialBuildings[region]);
       if (!dst) return;
-      dst = dst[Math.floor(dst.length * Math.random())];
+      dst = dst[dst.length * Math.random() | 0];
       if (!dst) return;
       dst = building_id(dst.r, dst.b[2]);
       let path = pathfind_find(src, dst);
@@ -165,7 +169,7 @@ function sim_spawn_cars(max_time) {
 
       let dst = (Math.random() < 0.9 ? _residentialBuildings[region] : _commercialBuildings[region]);
       if (!dst) return;
-      dst = dst[Math.floor(dst.length * Math.random())];
+      dst = dst[dst.length * Math.random() | 0];
       if (!dst) return;
       dst = building_id(dst.r, dst.b[2]);
       let path = pathfind_find(src, dst);
@@ -175,5 +179,5 @@ function sim_spawn_cars(max_time) {
       lengths += path.length;
     });
   }
-  //console.log(`sim_spawn_cars() ${cars} cars and ${Math.round(lengths / cars * METERS_PER_UNIT / 1000 * 10) / 10}km avg trip in ${new Date() - start}ms`);
+  console.log(`sim_spawn_cars() ${cars} cars and ${Math.round(lengths / cars * METERS_PER_UNIT / 1000 * 10) / 10}km avg trip in ${new Date() - start}ms`);
 }
