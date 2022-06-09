@@ -16,7 +16,7 @@ function sim_precalc() {
   for (let id in world.roads) {
     let r = world.roads[id];
     r.buildings.forEach((b, i) => {
-      let region = building_coor(r, i).map(x => Math.round(x * METERS_PER_UNIT / (Math.random() * 8000 + 1000))).toString();
+      let region = building_coor(r, i).map(x => Math.round(x * METERS_PER_UNIT / (Math.random() * 15000 + 2000))).toString();
       _residentialBuildings[region] = _residentialBuildings[region] || [];
       _commercialBuildings[region] = _commercialBuildings[region] || [];
       _buildings++;
